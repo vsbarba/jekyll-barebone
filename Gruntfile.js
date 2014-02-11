@@ -77,6 +77,12 @@ module.exports = function (grunt) {
         src: ['bootstrap/less/**'],
         dest: 'app/assets/less/'
       },
+      bootstrap_dist: {
+        expand: true,
+        cwd: '<%= site.app_dir %>/_bower_components/bootstrap/dist/',
+        src: ['js/*','fonts/*'],
+        dest: 'app/assets/'
+      },
       others: {
         expand: true,
         cwd: '<%= site.app_dir %>/_bower_components/',
@@ -100,7 +106,7 @@ module.exports = function (grunt) {
   // Careful with this usually run once
   grunt.registerTask('copy-bootstrap', ['copy:boostrap_less']);
   // Use this to update jquery, modernizr
-  grunt.registerTask('copy-update', ['copy:others']);
+  grunt.registerTask('copy-update', ['copy:others','copy:bootstrap_dist']);
 
   grunt.registerTask('update-assets', function () {
     grunt.task.run([
