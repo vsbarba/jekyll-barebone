@@ -12,5 +12,5 @@ Installation
 ============
 
 ```
-
+git clone https://github.com/vsbarba/jekyll-barebone.git
 ```
