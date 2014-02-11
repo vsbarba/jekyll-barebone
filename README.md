@@ -1,4 +1,4 @@
-jekyll-barebone
+Jekyll-barebone
 ===================
 
 Jekyll-barebone is a simple scaffold I created for my personal pages. It is powered with Jekyll, Grunt, Bower and is heavily inspired with
@@ -11,6 +11,12 @@ I will discuss more of the setup on this documentation.
 Installation
 ============
 
+The Git Way
+
 ```
 git clone https://github.com/vsbarba/jekyll-barebone.git
 ```
+
+
+
+

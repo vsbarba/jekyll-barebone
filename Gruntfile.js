@@ -27,9 +27,13 @@ module.exports = function (grunt) {
       options: {
         livereload: true
       },
+      less: {
+        files: ['<%= site.app_dir %>/assets/less/**/*.less'],
+        tasks: ['less']
+      },
       jekyll: {
         files: [
-          '<%= site.app_dir %>/**/*.{html,yml,md,mkd,markdown}',
+          '<%= site.app_dir %>/**/*.{html,yml,md,mkd,markdown,css}',
           '_config.yml',
           'app/'
         ],
@@ -37,24 +41,48 @@ module.exports = function (grunt) {
       }
     },
     clean: {
-      // TODO DIST
-      // dist: {
-      //   files: [{
-      //     dot: true,
-      //     src: [
-      //       '.tmp',
-      //       '<%= site.dist_dir %>/*',
-      //       // Running Jekyll also cleans the target directory.  Exclude any
-      //       // non-standard `keep_files` here (e.g., the generated files
-      //       // directory from Jekyll Picture Tag).
-      //       '!<%= site.dist_dir %>/.git*'
-      //     ]
-      //   }]
-      // },
       server: [
         '.tmp',
         '.jekyll'
       ]
+    },
+    less: {
+      development: {
+        options: {
+          paths: ["app/assets/css"],
+          compress: true,
+          yuicompress: true,
+          optimization: 2
+        },
+        files: {
+          "app/assets/css/bootstrap.css": "app/assets/less/bootstrap/less/bootstrap.less"
+        }
+      },
+      main: {
+        options: {
+          paths: ["app/assets/css"],
+          compress: true,
+          yuicompress: true,
+          optimization: 2
+        },
+        files: {
+          "app/assets/css/main.css": "app/assets/less/main.less"
+        }
+      }
+    },
+    copy: {
+      boostrap_less: {
+        expand: true,
+        cwd: '<%= site.app_dir %>/_bower_components/',
+        src: ['bootstrap/less/**'],
+        dest: 'app/assets/less/'
+      },
+      others: {
+        expand: true,
+        cwd: '<%= site.app_dir %>/_bower_components/',
+        src: ['jquery/jquery.js', 'modernizr/modernizr.js'],
+        dest: 'app/assets/js/'
+      }
     }
   });
 
@@ -63,11 +91,24 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-contrib-copy');
+
   //See dev env compiled in .jekyll
   // grunt.registerTask('default', ['concurrent:dev']);
 
+  // Careful with this usually run once
+  grunt.registerTask('copy-bootstrap', ['copy:boostrap_less']);
+  // Use this to update jquery, modernizr
+  grunt.registerTask('copy-update', ['copy:others']);
 
-  // Define Tasks
+  grunt.registerTask('update-assets', function () {
+    grunt.task.run([
+      'copy-update'
+    ]);
+  })
+
+  // Serve your website
   grunt.registerTask('serve', function (target) {
     if (target === 'dist') {
       return grunt.task.run(['build', 'connect:dist:keepalive']);
@@ -81,5 +122,12 @@ module.exports = function (grunt) {
 
 
   //See dist for deployment ready package
-
+  //README
+  // npm install
+  // bower install
+  // grunt copy-bootstrap
+  // grunt update-assets
+  // grunt serve to serve :)
+  // TODO create build dist
+  // TODO upload straight to gh-pages
 };
