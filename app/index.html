@@ -3,11 +3,33 @@ layout: default
 title: Your New Jekyll Site
 ---
 
-<div id="home">
-  <h1>Blog xxxcccxxx</h1>
-  <ul class="posts">
-    {% for post in site.posts %}
-      <li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ post.url }}">{{ post.title }}</a></li>
-    {% endfor %}
-  </ul>
-</div>
+<section id="landing">
+  <div class="landing-vertical-inner">
+    <div class="jumbo-text">
+      <h1 data-plugin="blurrr">#iamdash2</h1>
+    </div>
+    <div class="scroll-down color-it-red">
+      'cos dash2 roddcks!
+    </div>
+    <div class="footer">
+      <div class="more-love">
+        <h4>MORE</h4>
+        <i class="fa fa-heart"></i>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="timeline">
+  <div class="container">
+    <div class="header">
+      <h1>Moments</h1>
+    </div>
+    <div id="photos" class="temp-append">
+    </div>
+    <div data-toggle="load-more-images" id="load-more-images">
+      Load More
+    </div>
+  </div>
+</section>
+

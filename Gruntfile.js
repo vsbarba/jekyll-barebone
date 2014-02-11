@@ -28,12 +28,13 @@ module.exports = function (grunt) {
         livereload: true
       },
       less: {
-        files: ['<%= site.app_dir %>/assets/less/**/*.less'],
+        files: ['<%= site.app_dir %>/assets/less/**/*.less','<%= site.app_dir%>/assets/less/*.less'],
         tasks: ['less']
       },
       jekyll: {
         files: [
-          '<%= site.app_dir %>/**/*.{html,yml,md,mkd,markdown,css}',
+          '<%= site.app_dir %>/**/*.{html,yml,md,mkd,markdown,css,js}',
+          '<%= site.app_dir%>/assets/img/*',
           '_config.yml',
           'app/'
         ],
@@ -88,6 +89,12 @@ module.exports = function (grunt) {
         cwd: '<%= site.app_dir %>/_bower_components/',
         src: ['jquery/jquery.js', 'modernizr/modernizr.js'],
         dest: 'app/assets/js/'
+      },
+      font_awesome: {
+        expand: true,
+        cwd: '<%= site.app_dir %>/_bower_components/font-awesome',
+        src: ['fonts/*', 'css/*'],
+        dest: 'app/assets/'
       }
     }
   });
@@ -106,7 +113,7 @@ module.exports = function (grunt) {
   // Careful with this usually run once
   grunt.registerTask('copy-bootstrap', ['copy:boostrap_less']);
   // Use this to update jquery, modernizr
-  grunt.registerTask('copy-update', ['copy:others','copy:bootstrap_dist']);
+  grunt.registerTask('copy-update', ['copy:others','copy:bootstrap_dist','copy:font_awesome']);
 
   grunt.registerTask('update-assets', function () {
     grunt.task.run([
